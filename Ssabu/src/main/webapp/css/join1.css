@@ -1,0 +1,92 @@
+   #checkAllstyle{
+        border : 3px solid gray;
+        margin : 20px;
+        padding : 50px;
+        /*position: fixed;*/
+    }
+    #policy1 , #policy2{
+        width: 698px;
+        height: 80px;
+        margin-bottom: -1px;
+        border: 1px solid #d9d9d9;
+        text-align: left;
+        overflow: scroll;
+        overflow-x: hidden;
+    }
+    
+    #policy1text, #policy2text{
+        margin : 10px;
+        line-height: 14px;
+        text-align: left;
+        font-size:11px;
+        color : #666;
+    }
+    
+    .joinAgreebutton{
+        width:100%;
+        margin:22px 0 100px;
+        padding-top : 17px;
+        border-top: 1px solid #d9d9d9;
+        text-align: left;
+        word-spacing: 5px;
+    }
+  
+#header{
+    width: 1000px;
+    padding: 35px 0 45px 0;
+}
+ol{
+    list-style: none;
+    display: block;
+    width: 800px;
+    height: 43px;
+}
+#regBanner >li{
+    display: inline;
+    color: white;
+}
+#rb1{
+    z-index: 1;
+    background-color: gray;
+    border-right-style: solid;
+    border-right-color: darkslategrey;
+    padding-top:10px ;
+    padding-bottom: 10px;
+    font-size: 120%;
+    padding-inline-start:40px;
+    padding-inline-end:40px;
+}
+#rb2{
+    z-index: 2;
+    background-color: gray;
+    margin-left: -5px;
+    border-right-style: solid;
+    border-right-color: darkslategrey;
+    padding-top:10px ;
+    padding-bottom: 10px;
+    font-size: 120%;
+    padding-inline-start: 40px;
+    padding-inline-end:40px;
+}
+#rb3{
+    z-index: 3;
+    background-color: gray;
+    margin-left: -5px;
+    border-right-style: solid;
+    border-right-color: darkslategrey;
+    padding-top:10px ;
+    padding-bottom: 10px;
+    font-size: 120%;
+    padding-inline-start: 40px;
+    padding-inline-end:40px;
+}
+#rb4{
+    z-index: 4;
+    background-color: gray;
+    margin-left: -5px;
+    padding-top:10px ;
+    padding-bottom: 10px;
+    font-size: 120%;
+    padding-inline-start: 20px;
+    padding-inline-end:30px;
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--context-datasource.xml에 mybatis -spring:scan에 등록된 패키지의 Mapper 인터페이스명과 
+	네임스페이스를 반드시 동일하게 주어야함 -->
+<mapper namespace="com.post.mapper.SearchMapper">
+	<select id="searchMemberList" parameterType="string" resultType="Member">
+		select * from member where name = #{value}
+	</select>
+	
+	<select id="searchTagForPidx" parameterType="string" resultType="Tag">
+		select * from tag where tname like '%'||'#'||#{value}||'%'
+	</select>
+	
+	<select id="searchPost" parameterType="int" resultType="Post">
+		select * from post where pidx=#{value} order by pdate desc
+	</select>
+	
+	<select id="newPost" parameterType="string" resultType="Post">
+		select * from post where pidx= (select max(pidx) from post where midx=#{value})
+	</select>
+</mapper>
+

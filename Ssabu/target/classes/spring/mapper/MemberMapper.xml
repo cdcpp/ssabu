@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--context-datasource.xml에 mybatis -spring:scan에 등록된 패키지의 Mapper 인터페이스명과 
+	네임스페이스를 반드시 동일하게 주어야함 -->
+<mapper namespace="com.member.mapper.MemberMapper">
+	<!-- <select id="testuser" resultType="int"> select count(*) from member 
+		</select> 아이디와 패스워드 확인으로 로그인처리 <select id="findUser" parameterType="Member" 
+		resultType="Member"> select * from member where email=#{email} </select> -->
+	<!-- 이메일 중복확인 -->
+
+
+	<select resultType="java.lang.Integer" parameterType="string"
+		id="emailCheck"> select count(email) from member where email=#{value} </select>
+
+	<!-- 핸드폰 중복확인 -->
+
+
+	<select resultType="java.lang.Integer" parameterType="string"
+		id="hpCheck"> select count(hp) from member where hp=#{value} </select>
+		
+		
+	<select id="selectMember" parameterType="string" resultType="Member">
+        select * from member where email=#{email}
+     </select>
+
+	<!-- 회원가입 처리 -->
+	<insert parameterType="Member" id="insertMember"> 
+	insert into member
+		(midx,name,email,pwd,hp,sex,emailyn,birth,joindate,mimage,pinfo)
+		values(member_seq.nextval,#{name},#{email},#{pwd},#{hp},#{sex},#{emailYN},#{birth},sysdate,#{mImage},#{pInfo})
+	</insert>
+
+	<!-- 아이디와 패스워드 확인으로 로그인처리 -->
+	
+	<!-- 아이디 찾기 -->
+	<select resultType="Member" parameterType="Member" id="findUser"> 
+	select *
+		from member where email=#{email} </select>
+		
+	<select resultType="Member" id="findUserByMidx"> 
+	select *
+		from member where mIdx=#{mIdx} </select>
+
+
+	<select resultType="string" parameterType="map" id="searchId"> select email
+		from member where name = #{name} and hp = #{hp} </select>
+
+	<!-- 비밀번호 찾기 -->
+	<select resultType="string" parameterType="map" id="searchPwd"> select
+		count(email) from member where name = #{name} and hp = #{hp} and email
+		= #{email} </select>
+		
+	<!-- 비밀번호 변경 -->
+   <update id="updatePwd" parameterType="map">
+         update member set pwd=#{changePwd} where email=#{email}
+   </update>
+		
+	<!-- 팔로우 처리 -->
+	<select id="countFollow" parameterType="int" resultType="int">
+		select count(*) from friend where midx=#{mIdx}
+	</select>
+	
+	<insert id="insertFollow" parameterType="map">
+		insert into friend values(friend_SEQ.NEXTVAL,#{loginMidx},#{mIdx})
+	</insert>
+	
+	<select id="selectFollow" parameterType="int" resultType="String">
+		select follower from friend where midx=#{loginMidx}
+	</select>
+	
+	<update id="updateFollow" parameterType="map">
+		update friend set follower = #{mIdx} where midx=#{loginMidx}
+	</update>
+	
+	<select id="selectFwer" parameterType="int" resultType="int">
+		select midx from friend where follower like '%'||#{loginMidx}||'%'
+	</select>
+	
+	<delete id="deleteFollow" parameterType="int">
+		delete from friend where midx =#{deleteF}
+	</delete>
+	
+	
+	
+
+	<!-- 회원탈퇴 -->
+	<delete id="dropMember" parameterType="int">
+		delete from member where midx = #{midx}
+	</delete>
+	
+	<!-- 회원수정 -->
+	<update id="editMember" parameterType="Member">
+		update member set mImage=#{mImage}, pInfo =#{pInfo}, name=#{name}, pwd=#{pwd}, hp=#{hp}, emailyn=#{emailYN}, birth=#{birth}
+		where midx= #{midx}
+	</update>
+	
+	<!-- 게시글 수 가져오기 -->
+	<select id="selectPostCount" parameterType="int" resultType="int">
+		select count(pidx) from post where midx=#{mIdx} 
+	</select>
+	
+	
+</mapper>
+

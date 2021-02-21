@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+ <typeAliases>
+ 	 <typeAlias type="com.board.domain.BoardVO" alias="Board"/>
+	<typeAlias type="com.member.domain.MemberVO" alias="Member"/>
+	<typeAlias type="com.post.domain.PostVO" alias="Post"/>
+	<typeAlias type="com.post.domain.ReplyVO" alias="Reply"/>
+	<typeAlias type="com.post.domain.TagVO" alias="Tag"/>
+	<typeAlias type="com.post.domain.ImageFileVO" alias="ImageFile"/>
+	<typeAlias type="com.post.domain.LikeVO" alias="Like"/>
+ </typeAliases>
+ 
+ <!-- mybatis-spring:scan에 등록한 -->
+  <mappers>
+  	<mapper resource="spring/mapper/BoardMapper.xml"/>
+	<mapper resource="spring/mapper/MemberMapper.xml"/>
+	<mapper resource="spring/mapper/PostMapper.xml"/>
+	<mapper resource="spring/mapper/SearchMapper.xml"/>
+  </mappers>
+</configuration>

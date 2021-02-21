@@ -1,0 +1,116 @@
+@font-face{
+    font-family: 'NanumBold';
+    src: url('font/NANUMBARUNGOTHICBOLD.ttf')
+}
+#loginBackground{
+    background-image: url(../images/mainBackground.jpg); 
+    height: 816px;
+    width:1826px;
+    margin-left: 50px;
+}
+#loginCircle{
+    position: absolute; 
+    top: 30%; 
+    left: 50%; 
+    height: 400px; 
+    width: 400px;
+    border-style: solid;
+    border-color: red;
+    background-color: white; 
+    border-radius: 50%;
+    margin-left: -200px;
+    z-index: 3;
+}
+#lcLogo{
+    position: absolute;
+    font-family: 'NanumBold';
+    font-size: 40px;
+    top: 50px;
+    left: 135px;
+    
+}
+#loginF{
+    position: absolute; 
+    top: 33%;
+    left: 50%;
+    width: 250px;
+    margin-left: -125px;
+}
+#idInputbox{
+    font-size: 11pt;
+    padding-left: 15px;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: thin;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 40px;
+    width: 250px;
+}
+#pwdInputbox{
+    font-size: 11pt;
+    padding-left: 15px;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: thin;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 40px;
+    width: 250px;
+    margin-top: 10px;
+        
+}
+#loginSub{
+    font-size: 11pt;
+    height: 40px;
+    width: 250px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: none;
+}
+#registerSection{
+    position: absolute;
+    top: 78%;
+    left: 19%;
+}
+#registerSection >span{
+    font-size: 12px;
+    color: darkgrey;
+}
+#registerSection >a{
+    color: black;
+    font-size: 13px;
+    margin: 12px;
+    text-decoration: none;
+    text-emphasis-color: beige;
+}
+#registerSection >a:hover{
+    color: black;
+}
+
+#flower1 , #flower10{
+    font-size: 25px;
+    color: lightpink;
+    position: fixed;
+}
+#flower2,#flower8,#flower9{
+    font-size: 20px;
+    color: lightpink;
+    position: fixed;
+}
+#flower3,#flower6,#flower7{
+    font-size: 17px;
+    color: lightpink;
+    position: fixed;
+}
+#flower4,#flower5{
+    font-size: 22px;
+    color: lightpink;
+    position: fixed;
+}

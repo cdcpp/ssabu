@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--context-datasource.xml에 mybatis -spring:scan에 등록된 패키지의 Mapper 인터페이스명과 
+	네임스페이스를 반드시 동일하게 주어야함 -->
+<mapper namespace="com.post.mapper.PostMapper">
+	
+	<!-- 글 작성자 가져오기 -->
+	<select id="getPostEditer" parameterType="int" resultType="Member">
+		select 
+		  m.midx, name, email, pwd, hp, sex, mimage, pinfo, bgm,
+		  emailyn, birth, joindate
+		from member m join post p
+		on m.midx=p.midx
+		and p.pidx=#{value}
+	</select>
+	
+	<!-- 게시글 가져오기 -->
+	<select id="getPost" parameterType="int" resultType="Post">
+		select * from post where pidx=#{value}
+	</select>
+	
+	<!-- 해당 게시글의 좋아요 테이블 가져오기 -->
+	<select id="getLike" parameterType="int" resultType="Like">
+		select 
+			l.pidx, lidx, lmidx
+		from likes l join post p
+		on p.pidx=l.pidx
+		and p.pidx=#{value}
+	</select>
+	
+	<!-- 해당 게시글의 리플목록 가져오기 -->
+	<select id="getReply" parameterType="int" resultMap="ReplyJoin">
+		select r.*, (select name from member where midx=r.rmidx) name,
+		 (select mimage from member where midx=r.rmidx) mimage
+		from reply r where r.pidx=#{value}
+	</select>
+	<resultMap type="Reply" id="ReplyJoin" >
+		<id property="rIdx" column="ridx"/>
+		<result property="pIdx" column="pidx"/>
+		<result property="rContent" column="rcontent"/>
+		<result property="emoji" column="emoji"/>
+		<result property="rDate" column="rdate"/>
+		<result property="refer" column="refer"/>
+		<result property="lev" column="lev"/>
+		<result property="sunbun" column="sunbun"/>
+		<result property="rState" column="rstate"/>
+		<result property="rmIdx" column="rmidx"/>
+		<collection  property="mvo" javaType="java.util.ArrayList" ofType="Member">
+			<result property="name" column="name"/>
+			<result property="mImage" column="mimage"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 해당 게시글의 태그 불러오기 -->
+	<select id="getTag" parameterType="int" resultType="Tag">
+		select 
+			t.pidx, tidx, tname
+		from tag t join post p
+		on p.pidx=t.pidx
+		and p.pidx=#{value}
+	</select>
+	<!-- 해당 게시글 본문의 이미지 가져오기 -->
+	<select id="getImageFile" parameterType="int" resultType="ImageFile">
+		select 
+			img.pidx, imgidx, imgname, imgname_origin
+		from imagefile img join post p
+		on p.pidx=img.pidx
+		and p.pidx=#{value}
+	</select>
+	
+	<!-- 좋아요카운트와 댓글수 카운트 -->
+	<select id="likeCount" parameterType="int" resultType="int">
+		select count(*) from likes where pidx=#{value}
+	</select>
+	<select id="replyCount" parameterType="int" resultType="int">
+		select 
+			count(r.ridx)
+		from reply r join post p
+		on p.pidx=r.pidx
+		and p.pidx=#{value}
+	</select>
+	
+	<select id="getReplyEditer" parameterType="int" resultType="Member">
+		select midx, name, sex, mimage from member where midx=#{value} 
+	</select>
+	
+	<!-- 댓글작성하기 -->
+	<insert id="subReply" parameterType="map">
+		insert into reply (pidx,ridx, rcontent, rdate, rstate, rmidx) 
+		values (#{pidx},reply_seq.nextval,#{rcontent}, sysdate, #{rstate},#{rmidx})
+	</insert>
+	
+	<!-- 좋아요버튼 액션 -->
+	<select id="alreadyLikeChk" parameterType="map" resultType="int">
+		select * from likes where pidx=#{pidx} and lmidx=#{midx}
+	</select>
+	<insert id="likeUp" parameterType="map" >
+		insert into likes(pidx, lidx, lmidx) values(#{pidx}, likes_seq.nextval, #{midx})
+	</insert>
+	<delete id="likeDown" parameterType="map">
+		delete from likes where pidx=#{pidx} and lmidx=#{midx}
+	</delete>
+	<!-- 사진 업로드 -->
+	<insert id="uploadImage" parameterType="ImageFile">
+		insert into ImageFile
+		values(imageFile_seq.nextval,#{imgName},0,#{imgName_Origin})
+	</insert>
+
+	<!-- 게시글 작성 -->
+	<insert id="insertPost" parameterType="Post">
+		insert into post
+		values(post_seq.nextval,#{bIdx},#{subject},#{content},0,#{pstate},sysdate,0,#{mIdx})
+	</insert>
+
+	<!-- 최신 작성글 글번호 가져오기 -->
+	<select id="selectPidx" resultType="int">
+		select pidx from post where pdate=(select max(pdate) from post)
+	</select>
+	<!-- 회원번호로 글번호 가져오기 -->
+	<select id="selectPidxBymidx" parameterType="int" resultType="int">
+		select pidx from post where midx = #{midx}
+	</select>
+	<!--  -->
+	<select id="selectTname" parameterType="int" resultType="string">
+		select tname from tag where pidx = #{pidx}
+	</select>
+	
+
+	<select id="selectImgName" parameterType="string" resultType="string">
+		select imgname from imagefile where imgName_Origin = #{filename} and
+		pidx = 0
+	</select>
+
+	<delete id="deleteImage" parameterType="string">
+		delete from imagefile
+		where imgname=#{imgName}
+	</delete>
+
+	<delete id="deleteImages">
+		delete from imagefile where pidx = 0
+	</delete>
+
+	<update id="updateImgPidx" parameterType="int">
+		update imagefile set
+		pidx = #{pIdx} where pidx=0
+	</update>
+
+	<select id="findPidxZero" resultType="string">
+		select imgname from
+		imagefile where pidx = 0
+	</select>
+
+	<insert id="insertTag" parameterType="Tag">
+		insert into tag
+		values(#{pIdx},tag_seq.nextval,#{tName})
+	</insert>
+
+	<select id="selectAllPost" parameterType="map" resultMap="PostJoin">
+		select p.*,i.*
+		from post p join imagefile i
+		on p.pidx=i.pidx 
+		<if test="tagname!=''">
+		join tag t
+		on p.pidx=t.pidx
+		</if>
+		where imgidx in (select max(imgidx) from imagefile group by pidx)
+		and to_char(pdate,'YY-MM')=#{ym}
+		and midx=#{midx}
+		
+		<if test="tagname==''">
+		and bidx=#{bidx}
+		</if>
+		<if test="tagname!=''">
+		and tname like '%'||#{tagname}||'%'
+		</if>
+		<if test='state=="0"'>
+		and pstate=0
+		</if>
+		<if test='state=="1"'>
+		and (pstate=0 or pstate=1)
+		</if>
+		<if test='state=="2"'>
+		and (pstate=0 or pstate=1 or pstate=2)
+		</if>
+		<if test="sort=='date'">			
+		order by pdate desc
+		</if>
+		<if test="sort=='like'">			
+		order by likecount desc
+		</if>
+		<if test="sort=='hit'">			
+		order by hitcount desc
+		</if>
+		
+	</select>
+
+
+	<resultMap type="Post" id="PostJoin">
+		<id property="pIdx" column="pidx" />
+		<result property="bIdx" column="bidx" />
+		<result property="subject" column="subject" />
+		<result property="content" column="content" />
+		<result property="hitCount" column="hitcount" />
+		<result property="pstate" column="pstate" />
+		<result property="pdate" column="pdate" />
+		<result property="likeCount" column="likecount" />
+		<result property="mIdx" column="midx" />
+
+		<association property="imageFile" javaType="imageFile">
+			<id property="imgIdx" column="imgidx" />
+			<result property="imgName" column="imgname" />
+		</association>
+	</resultMap>
+	
+	<select id="getYearMonth" resultType="string">
+		select distinct to_char(pdate,'YY-MM') from post
+		group by pdate order by to_char(pdate,'YY-MM') desc
+	</select>
+	
+	<select id="selectImgCount" resultType="int">
+		select count(imgidx) from imagefile where pidx=0
+	</select>
+	
+	<update id="uplikeCount" parameterType="map">
+		update post set likecount=likecount+1 where pidx=${pidx}
+	</update>
+	
+	<update id="downlikeCount" parameterType="map">
+		update post set likecount=likecount-1 where pidx=${pidx}
+	</update>
+	
+	
+	
+</mapper>
+

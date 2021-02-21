@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--context-datasource.xml에 mybatis -spring:scan에 등록된 패키지의 Mapper 인터페이스명과 
+	네임스페이스를 반드시 동일하게 주어야함 -->
+<mapper namespace="com.board.mapper.BoardMapper">
+	<insert id="insertBoard" parameterType="Board">
+		insert into board values(#{midx},board_seq.nextval,#{bname},#{bstate})
+	</insert>
+
+	<select id="getUserBoard" parameterType="int" resultType="Board">
+		select
+		* from board where midx=#{midx}
+	</select>
+
+	<select id="selectNormalBoard" parameterType="int" resultType="string">
+		select min(bIdx) from board where midx=#{midx}
+	</select>
+
+	<select id="randomMidx" resultType="string">
+		select * from(
+		select midx from member
+		order by DBMS_RANDOM.RANDOM
+		) where rownum <![CDATA[<2]]>
+	</select>
+
+</mapper>
+

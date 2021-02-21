@@ -1,0 +1,55 @@
+#searchIdTable,#searchPwdTable{
+    border: 1px solid black;
+    border-top-left-radius:10%;
+    height:310px;
+}
+#searchIdTitle{
+    text-align: center;
+    background: #f7f7f7;
+    font-size: 20px;
+    border-bottom: 3px solid gray;
+    height:20px;
+}
+#updatePwdTable{
+	margin:50px;
+}
+.name,.tel1,.tel2,.tel3,.id{
+    margin: 10px;
+    border-radius: .25rem;
+}
+.name,.id{ 
+    width:250px;
+}
+.tel2,.tel3{
+    width:55px;
+
+}
+#searchId,#searchPwd,#updatePwd{
+    margin-top: 30px;
+    margin-bottom: 30px; 
+    border-radius: .25rem;
+    background-color: red;
+    padding: 10px;
+    color: white;
+}
+.search{
+    text-align: center;
+}
+
+#idSearchResult{
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding-top:80px;
+	padding-bottom:80px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: lightgray;
+	border-bottom-color: lightgray;
+}
+#formId{
+	
+	float:right;
+}
+#formPwd{
+	
+}
